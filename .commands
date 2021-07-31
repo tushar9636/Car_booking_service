@@ -1,0 +1,22 @@
+
+//table cars having car metA info
+CREATE TABLE `test`.`cars` ( `id` INT(11) NOT NULL AUTO_INCREMENT , `car_license_number` VARCHAR(100) NOT NULL , `manufacturer` VARCHAR(100) NOT NULL , `model` VARCHAR(100) NOT NULL , `base_price` INT(5) NOT NULL , `price_per_hour` INT(5) NOT NULL , `security_deposit` INT(5) NOT NULL , `created` INT(11) NOT NULL , `modified` INT(11) NOT NULL , PRIMARY KEY (`id`), UNIQUE (`car_license_number`)) ENGINE = InnoDB;
+
+//table users having users meta info
+
+CREATE TABLE `test`.`users` ( `id` INT(11) NOT NULL AUTO_INCREMENT , `email` VARCHAR(200) NOT NULL , `password` VARCHAR(500) NOT NULL , `phone` VARCHAR(20) NOT NULL , `created` INT(11) NOT NULL , `modified` INT(11) NOT NULL , `name` VARCHAR(500) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+//table bookings 
+
+
+CREATE TABLE `test`.`bookings` ( `id` INT(11) NOT NULL AUTO_INCREMENT , `user_id` INT(11) NOT NULL , `car_id` INT(11) NOT NULL , `from_date_time` INT(11) NOT NULL , `to_date_time` INT(11) NOT NULL , `created` INT(11) NOT NULL , `modified` INT(11) NOT NULL , PRIMARY KEY (`id`), INDEX `user` (`user_id`), INDEX `car` (`car_id`)) ENGINE = InnoDB;
+ALTER TABLE `bookings` ADD `booking_price` INT(11) NOT NULL AFTER `car_id`;
+
+
+// Only role 1 has access to all the api's
+ALTER TABLE `users` ADD `role` TINYINT(1) NOT NULL COMMENT '1: Admin , 2: Bookinguser' AFTER `name`; 
+
+ALTER TABLE `users` CHANGE `password` `password` VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '';
+
+
+

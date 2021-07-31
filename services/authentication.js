@@ -1,8 +1,8 @@
 'use strict';
 const jwt = require('jsonwebtoken');
-const constants = require('./constants');
+const constants = require('../helpers/constants');
 const token_secret = constants.TOKEN_SECRET;
-const db = require('./database');
+const db = require('../database');
 
 class Auth {
     generateToken(payload) {

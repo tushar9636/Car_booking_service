@@ -4,9 +4,10 @@ var app = express();
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-const Authentication = require('./authentication');
+const Authentication = require('./services/authentication');
 const Auth = new Authentication();
-const Utility = require('./utils');
+const Utility = require('./helpers/utils');
+const constants = require("./helpers/constants");
 const Utils = new Utility();
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -26,7 +27,9 @@ app.use('/v1', async function (req, res, next) {
             if (!token) res.status(403).json({ error: "Invalid token" })
             else {
                 req.user = await Auth.handleAuth(token);
-                next();
+                if(req.user.role == constants.ROLE.ADMIN) next();
+                else res.status(403).json('You dont have access')
+                
             }
         }
     }
@@ -35,7 +38,8 @@ app.use('/v1', async function (req, res, next) {
     }
 })
 
-app.use('/v1',require('./routes'));
+app.use('/v1',require('./routes/users'));
+app.use('/v1', require('./routes/cars'));
 
 app.listen(4000, () => {
     console.log(`App listening at http://localhost:4000}`)
